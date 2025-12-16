@@ -23,5 +23,5 @@ resources:
 service:
   type: ClusterIP
   sourcePort: 80 #changed from "port" because value for spec.ports.port was calling for "sourcePort" and not "port" in service.yaml 
-  targetPort: 8080
+  targetPort: 80 #trying out 80 instead of 8080 so that this target port matches the port the container is listening on, which is 80
   protocol: TCP #capitalized to resolve syntax error
