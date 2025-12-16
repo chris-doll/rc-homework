@@ -14,14 +14,14 @@ image:
 
 resources:
   requests:
-    memory: 512Mi
-    cpu: 500m
+    memory: 256Mi #changed from "512Mi" because exceeded memory limit
+    cpu: 250m #changed from "500m" because exceeded cpu limit
   limits:
     memory: 256Mi
     cpu: 250m
 
 service:
   type: ClusterIP
-  port: 80
+  sourcePort: 80 #changed from "port" because value for spec.ports.port was calling for "sourcePort" and not "port" in service.yaml 
   targetPort: 8080
-  protocol: tcp
+  protocol: TCP #capitalized to resolve syntax error
