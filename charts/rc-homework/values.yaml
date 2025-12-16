@@ -9,7 +9,7 @@ replicaCount: 1
 image:
   repository: nginx
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.21-latest
+  tag: "1.21" #changed this from 1.21-latest because this tag does not exist
 
 
 resources:
