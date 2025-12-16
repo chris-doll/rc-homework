@@ -15,7 +15,7 @@ image:
 resources:
   requests:
     memory: 256Mi #changed from "512Mi" because exceeded memory limit
-    cpu: 250m #changed from "500m" because exceeded cpu limit
+    cpu: 250m #changed from "500m" because exceeded cpu limit 
   limits:
     memory: 256Mi
     cpu: 250m
