@@ -22,12 +22,11 @@ I began by setting up the local development environment, including Docker, kubec
 
 4. After reviewing the status of the running pods, I identified an image pull failure for the rc-homework pod. The issue was caused by an invalid NGINX image tag (1.21-latest) specified in values.yaml. I corrected the tag to 1.21 and upgraded the Helm release, resulting in a successful application deployment.
 
-5. To validate the deployment, I needed to connect to the application. Since the Service was of type ClusterIP, I used port forwarding. However, when I ran it initially I encountered an error, and I found out it was because the port the container was listening on was different than the one in service.yaml.Specifically, I got a connection refused error because container was listening on 80, but the service.yaml originally said 8080.  
+5. To validate the deployment, I needed to connect to the application. Since the Service was of type ClusterIP, I used port forwarding. However, when I ran it initially I encountered an error, and I found out it was because the port the container was listening on was different than the one in service.yaml.Specifically, I got a connection refused error because container was listening on 80, but the service.yaml originally said 8080.
+
+    To resolve this, I aligned the container port and Service port to 80 and exposed the Service on port 8080 locally. After rerunning the port-forward command (kubectl port-forward svc/rc-homework -n homework 8080:8080), I was able to access and view the NGINX welcome page at http://localhost:8080.
 
 
-To resolve this, I aligned the container port and Service port to 80 and exposed the Service on port 8080 locally. After rerunning the port-forward command (kubectl port-forward svc/rc-homework -n homework 8080:8080), I was able to access and view the NGINX welcome page at http://localhost:8080.
-
-
-Validation Summary
+#### **Validation Summary**
 
 The deployment was validated by successfully provisioning the Kubernetes namespace with Terraform, deploying the Helm chart without errors, and confirming that all pods and services were in a healthy running state. Application accessibility was verified using kubectl port-forward, and the NGINX welcome page was successfully reached via a local browser, confirming the service was functioning as expected.
