@@ -1,3 +1,4 @@
+
 # **README.md detailing issues and requested screenshots in the Issues Found folder** #
 
 ### **Software Engineering/Infrastructure Homework Assignment**
