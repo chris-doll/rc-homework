@@ -1,5 +1,4 @@
-
-# **README.md detailing issues and requested screenshots in the Issues Found folder** #
+## **Issues Found folder contains new README.md detailing issues along with requested screenshots!** ##
 
 ### **Software Engineering/Infrastructure Homework Assignment**
 
