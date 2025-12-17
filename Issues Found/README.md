@@ -14,7 +14,7 @@ I began by setting up the local development environment, including Docker, kubec
 2. After successfully applying the Terraform configuration, the Helm chart installation failed due to a missing namespace. This occurred because the namespace defined in Terraform (rc-homework) did not match the namespace referenced in the Helm chart (homework). To resolve this, I updated the Terraform configuration to use the homework namespace. I then recreated the Minikube cluster, reapplied the Terraform configuration, and retried the Helm chart installation, which worked but also surfaced the next issue.
 
 3. During this attempt at installing the Helm Chart I got errors with the Service and Deployment specs:
-    - An invalid value error for spec.ports[0].port was caused by a mismatch between the variable name referenced in service.yaml and the variable defined in values.yaml. This was resolved by updating service.yaml to use the correct variable name.
+    - An invalid value error for spec.ports[0].port was caused by a mismatch between the variable name referenced in service.yaml and the variable defined in values.yaml. ~~This was resolved by updating service.yaml to use the correct variable name.~~. See **FIX** under Step 5. 
     - An unsupported value error for spec.ports[0].protocol was due to incorrect casing. The value was defined as tcp instead of the required TCP, and was updated accordingly.
     - Deployment resource requests in values.yaml exceeded the defined limits. The CPU and memory request values were adjusted to match the specified limits, resolving the issue.
 
@@ -24,8 +24,9 @@ I began by setting up the local development environment, including Docker, kubec
 
 5. To validate the deployment, I needed to connect to the application. Since the Service was of type ClusterIP, I used port forwarding. However, when I ran it initially I encountered an error, and I found out it was because the port the container was listening on was different than the one in service.yaml.Specifically, I got a connection refused error because container was listening on 80, but the service.yaml originally said 8080.
 
-    To resolve this, I aligned the container port and Service port to 80 and exposed the Service on port 8080 locally. After rerunning the port-forward command (kubectl port-forward svc/rc-homework -n homework 8080:8080), I was able to access and view the NGINX welcome page at http://localhost:8080.
+    ~~To resolve this, I aligned the container port and Service port to 80 and exposed the Service on port 8080 locally. After rerunning the port-forward command (kubectl port-forward svc/rc-homework -n homework 8080:8080), I was able to access and view the NGINX welcome page at http://localhost:8080.~~
 
+    **FIX:** The previous method worked, but I went back to redo this with a better approach. I changed the "sourcePort" variable to "port", making sure that the values.yaml and service.yaml used the same variable.  I got the same Invalid Value error as before, so in service.yaml I set a default port like so: port: {{ .Values.service.port | default 80 }}. Then back in values.yaml I set both port and targetPort to 80, so that when I ran the port forward command it would appear as so: kubectl port-forward svc/rc-homework -n homework 8080:80. This change was a success and I could view the NGINX webpage from my browser. Figured port forwarding this way would be less confusing (8080:80 vs 8080:8080).
 
 #### **Validation Summary**
 
